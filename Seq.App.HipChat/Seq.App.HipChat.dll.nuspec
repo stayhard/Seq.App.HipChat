@@ -5,8 +5,8 @@
     <version>1.0.0</version>
     <authors>Kristoffer Jansson</authors>
     <owners>Kristoffer Jansson</owners>
-    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>-->
-    <!--<projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>-->
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/stayhard/Seq.App.HipChat</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An app for Seq (http://getseq.net) that forwards messages to HipChat.</description>
     <releaseNotes></releaseNotes>
