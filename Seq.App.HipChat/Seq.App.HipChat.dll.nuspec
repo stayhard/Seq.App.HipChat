@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Seq.App.HipChat</id>
+    <version>1.0.0</version>
+    <authors>Kristoffer Jansson</authors>
+    <owners>Kristoffer Jansson</owners>
+    <!--<licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>-->
+    <!--<projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An app for Seq (http://getseq.net) that forwards messages to HipChat.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright Stayhard AB 2014</copyright>
+    <tags>seq-app seq serilog event hipchat</tags>
+    <dependencies>
+      <dependency id="Seq.Apps" version="1.0.2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Debug\Seq.App.HipChat.dll" target="lib\net45" />
+    <file src="bin\Debug\Seq.App.HipChat.pdb" target="lib\net45" />
+    <file src="bin\Debug\Newtonsoft.Json.dll" target="lib\net45" />
+    <file src="bin\Debug\System.Net.Http.Formatting.dll" target="lib\net45" />
+  </files>
+</package>
