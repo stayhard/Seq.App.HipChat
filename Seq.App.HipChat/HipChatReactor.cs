@@ -157,9 +157,10 @@ namespace Seq.App.HipChat
 
         private static void AddValueIfKeyDoesntExist(Dictionary<string, object> placeholders, string key, object value)
         {
-            if (!placeholders.ContainsKey(key))
+            var loweredKey = key.ToLower();
+            if (!placeholders.ContainsKey(loweredKey))
             {
-                placeholders.Add(key.ToLower(), value);
+                placeholders.Add(loweredKey, value);
             }
         }
 
