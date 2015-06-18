@@ -123,7 +123,7 @@ namespace Seq.App.HipChat
 
             var placeholders = data.Properties.ToDictionary(k => k.Key.ToLower(), v => v.Value);
 
-            AddValueIfKeyDoesntExist(placeholders, "eventtype", eventType);
+            AddValueIfKeyDoesntExist(placeholders, "EventType", eventType);
             AddValueIfKeyDoesntExist(placeholders, "RenderedMessage", data.RenderedMessage);
 
             return placeholdersRx.Replace(messageTemplateToUse, delegate(Match m)
@@ -159,7 +159,7 @@ namespace Seq.App.HipChat
         {
             if (!placeholders.ContainsKey(key))
             {
-                placeholders.Add(key, value);
+                placeholders.Add(key.ToLower(), value);
             }
         }
 
