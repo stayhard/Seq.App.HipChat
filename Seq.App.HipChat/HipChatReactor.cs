@@ -136,7 +136,7 @@ namespace Seq.App.HipChat
 
         private string FormatValue(object value, string format)
         {
-            var rawValue = value.ToString();
+            var rawValue = value != null ? value.ToString() : "(Null)";
 
             if (string.IsNullOrWhiteSpace(format))
             {
