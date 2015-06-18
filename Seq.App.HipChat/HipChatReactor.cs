@@ -15,7 +15,7 @@ namespace Seq.App.HipChat
     Description = "Sends log events to HipChat.")]
     public class HipChatReactor : Reactor, ISubscribeTo<LogEventData>
     {
-        static Regex placeholdersRx = new Regex("(\\[(?<key>[^\\[\\]]+?)(\\:(?<format>[^\\[\\]]+))?\\])", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        static Regex placeholdersRx = new Regex("(\\[(?<key>[^\\[\\]]+?)(\\:(?<format>[^\\[\\]]+?))?\\])", RegexOptions.CultureInvariant | RegexOptions.Compiled);
 
         private static IDictionary<LogEventLevel, string> _levelColorMap = new Dictionary<LogEventLevel, string>
         {
