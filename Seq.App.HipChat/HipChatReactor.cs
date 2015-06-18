@@ -65,10 +65,7 @@ namespace Seq.App.HipChat
                 if (!string.IsNullOrWhiteSpace(BaseUrl))
                 {
                     msg.AppendLine();
-                    msg.AppendLine(
-                        string.Format(
-                            "<a href=\"{0}/#/now?filter=@Id%20%3D%3D%20%22{1}%22&show=expanded\">Click here to open in Seq</a>",
-                            BaseUrl, evt.Id));
+                    msg.AppendLine(GenerateSeqUrl(evt));
                 }
 
                 var color = Color;
@@ -95,6 +92,11 @@ namespace Seq.App.HipChat
                         .Error("Could not send HipChat message, server replied {StatusCode} {StatusMessage}: {Message}", Convert.ToInt32(response.StatusCode), response.StatusCode, await response.Content.ReadAsStringAsync());
                 }
             }
+        }
+
+        private string GenerateSeqUrl(Event<LogEventData> evt)
+        {
+            return string.Format("<a href=\"{0}/#/events?filter=@Id%20%3D%3D%20%22{1}%22&show=expanded\">Click here to open in Seq</a>", BaseUrl, evt.Id);
         }
     }
 }
