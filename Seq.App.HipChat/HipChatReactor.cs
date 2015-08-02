@@ -120,9 +120,11 @@ namespace Seq.App.HipChat
         {
             var data = evt.Data;
             var eventType = evt.EventType;
+            var level = data.Level;
 
             var placeholders = data.Properties.ToDictionary(k => k.Key.ToLower(), v => v.Value);
 
+            AddValueIfKeyDoesntExist(placeholders, "Level", level);
             AddValueIfKeyDoesntExist(placeholders, "EventType", eventType);
             AddValueIfKeyDoesntExist(placeholders, "RenderedMessage", data.RenderedMessage);
 
