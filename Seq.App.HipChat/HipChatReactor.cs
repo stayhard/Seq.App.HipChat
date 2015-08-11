@@ -60,7 +60,11 @@ namespace Seq.App.HipChat
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(HipChatBaseUrl ?? DefaultHipChatBaseUrl);
+                var url = string.IsNullOrWhiteSpace(HipChatBaseUrl)
+                    ? DefaultHipChatBaseUrl
+                    : HipChatBaseUrl;
+                client.BaseAddress = new Uri(url);
+
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
