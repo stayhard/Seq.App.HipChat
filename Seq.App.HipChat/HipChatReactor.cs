@@ -13,6 +13,8 @@ namespace Seq.App.HipChat
     Description = "Sends log events to HipChat.")]
     public class HipChatReactor : Reactor, ISubscribeTo<LogEventData>
     {
+        private const string DefaultHipChatBaseUrl = "https://api.hipchat.com/v2/";
+        
         private static IDictionary<LogEventLevel, string> _levelColorMap = new Dictionary<LogEventLevel, string>
         {
             {LogEventLevel.Verbose, "gray"},
@@ -28,6 +30,12 @@ namespace Seq.App.HipChat
         HelpText = "Used for generating perma links to events in HipChat messages.",
         IsOptional = true)]
         public string BaseUrl { get; set; }
+        
+        [SeqAppSetting(
+        DisplayName = "HipChat Base URL",
+        HelpText = "Default will be: " + DefaultHipChatBaseUrl,
+        IsOptional = true)]
+        public string HipChatBaseUrl { get; set; }
 
         [SeqAppSetting(
         HelpText = "Admin or notification token (get it from HipChat.com admin).")]
@@ -52,7 +60,11 @@ namespace Seq.App.HipChat
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://api.hipchat.com/v2/");
+                var url = string.IsNullOrWhiteSpace(HipChatBaseUrl)
+                    ? DefaultHipChatBaseUrl
+                    : HipChatBaseUrl;
+                client.BaseAddress = new Uri(url);
+
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
