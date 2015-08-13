@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using Seq.Apps;
-using Seq.Apps.LogEvents;
-
-namespace Seq.App.HipChat
+﻿namespace Seq.App.HipChat
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
+    using Apps;
+    using Apps.LogEvents;
+
     [SeqApp("HipChat",
     Description = "Sends log events to HipChat.")]
     public class HipChatReactor : Reactor, ISubscribeTo<LogEventData>
@@ -60,11 +59,7 @@ namespace Seq.App.HipChat
         {
             using (var client = new HttpClient())
             {
-                var url = string.IsNullOrWhiteSpace(HipChatBaseUrl)
-                    ? DefaultHipChatBaseUrl
-                    : HipChatBaseUrl;
-                client.BaseAddress = new Uri(url);
-
+                client.BaseAddress = new Uri(GenerateHipChatBaseUrl());
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -107,6 +102,13 @@ namespace Seq.App.HipChat
                         .Error("Could not send HipChat message, server replied {StatusCode} {StatusMessage}: {Message}", Convert.ToInt32(response.StatusCode), response.StatusCode, await response.Content.ReadAsStringAsync());
                 }
             }
+        }
+
+        private string GenerateHipChatBaseUrl()
+        {
+            return string.IsNullOrWhiteSpace(HipChatBaseUrl)
+                    ? DefaultHipChatBaseUrl
+                    : HipChatBaseUrl;
         }
     }
 }
