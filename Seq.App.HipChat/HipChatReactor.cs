@@ -6,6 +6,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Seq.App.HipChat
 {
@@ -56,7 +58,21 @@ namespace Seq.App.HipChat
         IsOptional = true)]
         public bool Notify { get; set; }
 
-        public async void On(Event<LogEventData> evt)
+        public void On(Event<LogEventData> evt)
+        {
+            var previousContext = SynchronizationContext.Current;
+            SynchronizationContext.SetSynchronizationContext(null);
+            try
+            {
+                Dispatch(evt).GetAwaiter().GetResult();
+            }
+            finally
+            {
+                SynchronizationContext.SetSynchronizationContext(previousContext);
+            }
+        }
+
+        async Task Dispatch(Event<LogEventData> evt)
         {
             using (var client = new HttpClient())
             {
