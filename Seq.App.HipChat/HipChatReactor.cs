@@ -8,6 +8,7 @@ using Seq.Apps;
 using Seq.Apps.LogEvents;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Seq.App.HipChat
 {
@@ -26,6 +27,13 @@ namespace Seq.App.HipChat
             {LogEventLevel.Error, "red"},
             {LogEventLevel.Fatal, "red"},
         };
+
+        static HipChatReactor()
+        {
+            // HipChat Server 2.0 build 2.0.7, TLS 1.0 fallback has been removed
+            // https://confluence.atlassian.com/hc/hipchat-server-release-notes-608731400.html
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+        }
 
         [SeqAppSetting(
         DisplayName = "Seq Base URL",
