@@ -6,6 +6,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace Seq.App.HipChat
 {
@@ -24,6 +27,13 @@ namespace Seq.App.HipChat
             {LogEventLevel.Error, "red"},
             {LogEventLevel.Fatal, "red"},
         };
+
+        static HipChatReactor()
+        {
+            // HipChat Server 2.0 build 2.0.7, TLS 1.0 fallback has been removed
+            // https://confluence.atlassian.com/hc/hipchat-server-release-notes-608731400.html
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+        }
 
         [SeqAppSetting(
         DisplayName = "Seq Base URL",
@@ -56,7 +66,21 @@ namespace Seq.App.HipChat
         IsOptional = true)]
         public bool Notify { get; set; }
 
-        public async void On(Event<LogEventData> evt)
+        public void On(Event<LogEventData> evt)
+        {
+            var previousContext = SynchronizationContext.Current;
+            SynchronizationContext.SetSynchronizationContext(null);
+            try
+            {
+                Dispatch(evt).GetAwaiter().GetResult();
+            }
+            finally
+            {
+                SynchronizationContext.SetSynchronizationContext(previousContext);
+            }
+        }
+
+        async Task Dispatch(Event<LogEventData> evt)
         {
             using (var client = new HttpClient())
             {
